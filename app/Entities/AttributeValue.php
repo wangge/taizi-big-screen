@@ -22,5 +22,16 @@ class AttributeValue extends Model implements Transformable
      */
     protected $fillable = [];
     protected $table = 'attribute_value';
+    public function getValueIdAttribute($value){
+        return explode(',',$value);
+    }
+
+    /**
+     * 定义修改器
+     * @param $value
+     */
+    public function setValueIdAttribute($value){
+        $this->attributes['value_id'] = join(',',$value);
+    }
 
 }

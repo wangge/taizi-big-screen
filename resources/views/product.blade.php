@@ -4,13 +4,13 @@
     <div class="container-fluid good-list">
         <div class="sort-good clearfix">
             <div class="btn-group btn-group-toggle float-left" data-toggle="buttons">
-                <label class="btn btn-secondary @if(!in_array(request('sort',0),['is_new','recommend'])) active @endif" data-url="{!! route('product') !!}" onclick="openSort2(this);">
+                <label class="btn btn-secondary @if(request('sort','all')=='all') active @endif" data-url="{!! route('product') !!}" onclick="openSort2(this);">
                     <input type="radio" name="options" id="option1" autocomplete="off" checked> 全部
                 </label>
-                <label class="btn btn-secondary @if(request('sort',0)=='is_new') active @endif" data-url="{!! route('product',['sort'=>'is_new','cid'=>request('cid',0),'vid'=>request('vid',0),'xid'=>request('xid',0)]) !!}" onclick="openSort2(this);">
+                <label class="btn btn-secondary @if(request('sort','all')=='is_new') active @endif" data-url="{!! route('product',['sort'=>'is_new','cid'=>request('cid',0),'vid'=>request('vid',0),'xid'=>request('xid',0)]) !!}" onclick="openSort2(this);">
                     <input type="radio" name="options" id="option2" autocomplete="off"> 新品
                 </label>
-                <label class="btn btn-secondary @if(request('sort',0)=='recommend') active @endif" data-url="{!! route('product',['sort'=>'recommend','cid'=>request('cid',0),'vid'=>request('vid',0),'xid'=>request('xid',0)]) !!}" onclick="openSort2(this);">
+                <label class="btn btn-secondary @if(request('sort','all')=='recommend') active @endif" data-url="{!! route('product',['sort'=>'recommend','cid'=>request('cid',0),'vid'=>request('vid',0),'xid'=>request('xid',0)]) !!}" onclick="openSort2(this);">
                     <input type="radio" name="options" id="option3" autocomplete="off"> 推荐
                 </label>
             </div>
@@ -19,13 +19,13 @@
                     <select class="custom-select btn" id="inlineFormCustomSelect">
                         <option selected>选择空间</option>
                         @foreach($kongjian as $xl)
-                            <option value="{!! $xl->id !!}" @if(request( 'cid',0)==$xl->id) selected @endif data-url="{{route('product',['cid'=>$xl->id,'vid'=>request('vid',0),'xid'=>request('xid',0)])}}">{{$xl->name}}</option>
+                            <option value="{!! $xl->id !!}" @if(request( 'cid',0)==$xl->id) selected @endif data-url="{{route('product',['cid'=>$xl->id,'vid'=>request('vid',0),'xid'=>request('xid',0),'ccid'=>request('ccid',0)])}}">{{$xl->name}}</option>
                         @endforeach
                     </select>
                     <select class="custom-select btn" id="inlineFormCustomSelect">
-                        <option selected>选择风格</option>
-                        @foreach($fengge as $xl)
-                            <option value="{!! $xl->id !!}" @if(request( 'xid',0)==$xl->id) selected @endif data-url="{{route('product',['xid'=>$xl->id,'vid'=>request('vid',0),'cid'=>request('cid',0)])}}">{{$xl->name}}</option>
+                        <option selected>选择</option>
+                        @foreach($kongjian2 as $xl)
+                            <option value="{!! $xl->id !!}" @if(request( 'ccid',0)==$xl->id) selected @endif data-url="{{route('product',['xid'=>request('xid',0),'vid'=>request('vid',0),'cid'=>request('cid',0),'ccid'=>$xl->id])}}">{{$xl->name}}</option>
                         @endforeach
 
                     </select>
@@ -33,10 +33,17 @@
             </div>
             <div class="chose-option row float-left">
                 <div class="col-auto btn-group">
+                    <select class="custom-select btn" id="inlineFormCustomSelect">
+                        <option selected>选择风格</option>
+                        @foreach($fengge as $xl)
+                            <option value="{!! $xl->id !!}" @if(request( 'xid',0)==$xl->id) selected @endif data-url="{{route('product',['xid'=>$xl->id,'vid'=>request('vid',0),'cid'=>request('cid',0),'ccid'=>request('ccid',0)])}}">{{$xl->name}}</option>
+                        @endforeach
+
+                    </select>
                     <select class="custom-select" id="inlineFormCustomSelect">
                         <option selected>选择系列</option>
                         @foreach($xilie as $xl)
-                            <option data-url="{{route('product',['vid'=>$xl->id,'xid'=>request('xid',0),'cid'=>request('cid',0)])}}" value="{!! $xl->id !!}" @if(request( 'vid',0)==$xl->id) selected @endif>{{$xl->name}}</option>
+                            <option data-url="{{route('product',['vid'=>$xl->id,'xid'=>request('xid',0),'cid'=>request('cid',0),'ccid'=>request('ccid',0)])}}" value="{!! $xl->id !!}" @if(request( 'vid',0)==$xl->id) selected @endif>{{$xl->name}}</option>
                         @endforeach
                     </select>
                 </div>
