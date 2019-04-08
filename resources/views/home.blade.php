@@ -7,7 +7,7 @@
         <ul class="nav nav-tabs row type-tab" role="tablist">
             @foreach($lists as $item)
                 <li class="nav-item col">
-                    <a class="nav-link @if($loop->iteration==1) active @endif" data-toggle="tab" href="#menu{!! $loop->iteration !!}" style="background:url(@if($loop->iteration == 1)/public/images/test0{!! $loop->iteration!!}.png @else/public/images/test0{!! $loop->iteration!!}.jpg @endif)no-repeat center;">
+                    <a class="nav-link @if($loop->iteration==1) active @endif" data-toggle="tab" href="#menu{!! $loop->iteration !!}" style="background:url('/public/uploads/{!! $item['image_url'] !!}')no-repeat center;">
                         <span class="tab-name">{!! $item['name'] !!}</span>
                         <span class="tab-center"></span>
                     </a>
@@ -36,6 +36,10 @@
     <script src="/public/js/app.js"></script>
     <script>
         var url = '/update/db';
+        $.ajax({ url: url, success: function(){
+                console.log('ok');
+            }});
+        var url = '/update/img';
         $.ajax({ url: url, success: function(){
                 console.log('ok');
             }});

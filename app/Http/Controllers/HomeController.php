@@ -308,17 +308,26 @@ class HomeController extends Controller
         return $arr;
     }
 
-    public function updateDB(){
-
+    public function updataImage(){
+        set_time_limit(0);
+        \Log::info('update image');
         $img_list = $this->read_all(public_path().'/uploads');
-        $count = count($img_list);
-
-        $images = $this->httpGet("http://dev.cn/api/getImagesList");
+        $images = $this->httpGet("http://www.taizicasa.com/api/getImagesList");
         $images = json_decode($images,true);
-        for($i = $count-1;$i<$images['data']['total'];$i++){
-            $this->download_image($images['data']['images'][$i]);
+        $diff_images = array_diff($images['data']['images'],$img_list);
+        unset($images);
+        unset($img_list);
+        if(!empty($diff_images)){
+            foreach($diff_images as $img){
+                $this->download_image($img);
+            }
         }
+        return 0;
+    }
+    public function updateDB(){
+        set_time_limit(0);
         //phpinfo();die;
+        \Log::info('update data');
         $update_date = Cache::has('update_date') ? Cache::get('update_date'): date('Y-m-d');
         $agency_id = Auth::user()->id;
         $attr_max_id = app(\App\Entities\Attribute::class)->orderBy('id','desc')->first()->id;
@@ -337,7 +346,7 @@ class HomeController extends Controller
             'product_max_id' => $product_max_id,
             'update_date' => $update_date,
         ];
-        $response = $this->httpPost("http://dev.cn/api/getUpdate",$post_data);
+        $response = $this->httpPost("http://www.taizicasa.com/api/getUpdate",$post_data);
         $data = json_decode($response,true);
         if($data['error']==0){
             Cache::forever('update_date', date('Y-m-d'));
@@ -443,7 +452,7 @@ class HomeController extends Controller
         }
 
 
-        return '';
+        return 0;
     }
     private function httpGet($uri){
         $curl = curl_init();
@@ -524,7 +533,7 @@ class HomeController extends Controller
      */
     private function download_image($file, $fileType = array('jpg', 'gif', 'png'))
     {
-        $url = "http://www.taizicasa.com".$file;
+        $url = "https://taizicasabeifen.oss-cn-shenzhen.aliyuncs.com".$file;
         if ($url == '')
         {
             return false;
@@ -535,10 +544,10 @@ class HomeController extends Controller
 
         // 获取文件类型
         $suffix = substr(strrchr($url, '.'), 1);
-        if (!in_array($suffix, $fileType))
+        /*if (!in_array($suffix, $fileType))
         {
             return false;
-        }
+        }*/
 
 
         $fileName = $defaultFileName;

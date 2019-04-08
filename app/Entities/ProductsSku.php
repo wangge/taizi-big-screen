@@ -20,6 +20,6 @@ class ProductsSku extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $guarded = [];
     protected $table = 'products_sku';
 }

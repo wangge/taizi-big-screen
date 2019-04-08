@@ -21,7 +21,7 @@ class Attribute extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $guarded = [];
     protected $table = 'attribute';
 
     public function values()

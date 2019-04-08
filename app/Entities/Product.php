@@ -24,7 +24,7 @@ class Product extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $guarded = [];
     protected $table = 'product';
 
     public function attribute()

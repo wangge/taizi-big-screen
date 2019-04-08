@@ -19,3 +19,4 @@ Route::get('/favorite', 'HomeController@favorite')->name('favorite');
 Route::get('/show/{id}', 'HomeController@detail')->name('detail');
 
 Route::get('/update/db','HomeController@updateDB');
+Route::get('/update/img','HomeController@updataImage');

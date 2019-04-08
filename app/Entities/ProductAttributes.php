@@ -20,8 +20,9 @@ class ProductAttributes extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $guarded = [];
     protected $table = 'product_attributes';
+    public $timestamps = false;
     /**
      * 定义访问器
      * @param $value

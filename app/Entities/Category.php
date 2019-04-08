@@ -20,6 +20,6 @@ class Category extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $guarded = [];
     protected $table = 'category';
 }

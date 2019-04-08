@@ -20,6 +20,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="http://www.taizicasa.com/">浏览官网</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                        退出登录
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+                </li>
             </ul>
             <form class="form-inline mt-2 mt-md-0 main-search" action="{{route('product')}}">
                 <input class="form-control" type="text" placeholder="输入产品名或型号" aria-label="Search" name="no" value="{!! request('no','') !!}">

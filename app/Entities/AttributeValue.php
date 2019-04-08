@@ -20,7 +20,7 @@ class AttributeValue extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $guarded = [];
     protected $table = 'attribute_value';
     public function getValueIdAttribute($value){
         return explode(',',$value);

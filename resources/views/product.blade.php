@@ -17,9 +17,9 @@
             <div class="chose-option row float-left">
                 <div class="col-auto btn-group">
                     <select class="custom-select btn" id="inlineFormCustomSelect">
-                        <option selected>选择空间</option>
+                        <option selected data-url="{{route('product',['cid'=>0,'vid'=>request('vid',0),'xid'=>request('xid',0)])}}">选择空间</option>
                         @foreach($kongjian as $xl)
-                            <option value="{!! $xl->id !!}" @if(request( 'cid',0)==$xl->id) selected @endif data-url="{{route('product',['cid'=>$xl->id,'vid'=>request('vid',0),'xid'=>request('xid',0),'ccid'=>request('ccid',0)])}}">{{$xl->name}}</option>
+                            <option value="{!! $xl->id !!}" @if(request( 'cid',0)==$xl->id) selected @endif data-url="{{route('product',['cid'=>$xl->id,'vid'=>request('vid',0),'xid'=>request('xid',0)])}}">{{$xl->name}}</option>
                         @endforeach
                     </select>
                     <select class="custom-select btn" id="inlineFormCustomSelect">
