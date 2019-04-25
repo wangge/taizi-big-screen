@@ -100,3 +100,11 @@ function openSort2(obj) {
     let SORT2_URL = $(obj).attr("data-url");
     window.location.href = SORT2_URL
 }
+
+
+//控制轮播图
+$(function () {
+    var CAR_HEIGHT = $(".img-detail-wrap .carousel-indicators").height();
+    console.log(CAR_HEIGHT);
+    $(".img-detail-wrap .carousel-indicators").height(CAR_HEIGHT-10);
+})

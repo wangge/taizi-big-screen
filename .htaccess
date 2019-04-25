@@ -5,6 +5,7 @@
 
     RewriteEngine On
 
+    RewriteRule ^/public/(.*)\.(jpeg|gif|bmp|png|jpg)$ https://taizicasabeifen.oss-cn-shenzhen.aliyuncs.com/uploads/201904241050149599.jpg [L]
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

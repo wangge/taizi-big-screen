@@ -12,16 +12,20 @@
 
     <div class="carousel-inner">
         @foreach($thumb as $img)
+            @if($loop->index<5)
             <div class="carousel-item @if($loop->index == 0) active @endif">
                 <img class="d-block w-100" src="/public{!! $img !!}" alt="First slide">
             </div>
+            @endif
         @endforeach
     </div>
     <div class="carousel-indicators row">
         @foreach($thumb as $img)
-            <div data-target="#carouselExampleIndicators" data-slide-to="{!! $loop->index !!}" class="col-2 @if($loop->index == 0) active @endif">
+            @if($loop->index<5)
+            <div data-target="#carouselExampleIndicators" data-slide-to="{!! $loop->index !!}" class="ca-item @if($loop->index == 0) active @endif">
                 <img class="d-block w-100" src="/public{!! $img !!}">
             </div>
+            @endif
         @endforeach
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

@@ -30,16 +30,22 @@ class HomeController extends Controller
     public function index()
     {
         $list = app(\App\Repositories\AttributeRepositoryEloquent::class)->getFengGeList(5);
+        /*echo '<pre>';
+        print_r($list);die;*/
         return view('home',['lists'=>$list]);
     }
     public function product(){
-        $xilie = AttributeValue::where('attr_id',1)->get();
-        $fengge = AttributeValue::where('attr_id',5)->get();
+        //$xilie = AttributeValue::where('attr_id',1)->get();
+        $xilie = null;
+        $fengge = AttributeValue::where('attr_id',5)->where('id','<>',10)->get();
         $kongjian = Category::where('parent_id',0)->get();
         $kongjian2 = [];
         $attr_id = request('aid',0);//全部属性
         $value_id = request('vid',0);//风格
         $xvalue_id = request('xid',0);//系列
+        if($xvalue_id){
+            $xilie =  AttributeValue::where('parent_value_id',$xvalue_id)->get();
+        }
         $cid = request('cid',0);
         $sql ='';
         $sql3 ='';
@@ -552,9 +558,11 @@ class HomeController extends Controller
 
         $fileName = $defaultFileName;
         $fileName = str_replace('uploads/','',$file);
-
-        $content = file_get_contents($url);
-
+        try{
+            $content = file_get_contents($url);
+        }catch (\Exception $e){
+            $content = file_get_contents("http://www.taizicasa.com".$file);
+        }
         $file_arr = explode("/",$url);
         unset($file_arr[count($file_arr)-1]);
         $dirName = join('/',$file_arr);

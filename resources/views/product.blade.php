@@ -15,18 +15,22 @@
                 </label>
             </div>
             <div class="chose-option row float-left">
-                <div class="col-auto btn-group">
+                <div class="col-auto btn-group" style="width: 300px;">
                     <select class="custom-select btn" id="inlineFormCustomSelect">
                         <option selected data-url="{{route('product',['cid'=>0,'vid'=>request('vid',0),'xid'=>request('xid',0)])}}">选择空间</option>
+                        @if(!empty($kongjian))
                         @foreach($kongjian as $xl)
                             <option value="{!! $xl->id !!}" @if(request( 'cid',0)==$xl->id) selected @endif data-url="{{route('product',['cid'=>$xl->id,'vid'=>request('vid',0),'xid'=>request('xid',0)])}}">{{$xl->name}}</option>
                         @endforeach
+                            @endif
                     </select>
                     <select class="custom-select btn" id="inlineFormCustomSelect">
-                        <option selected>选择</option>
+                        <option selected data-url="{{route('product',['cid'=>request('cid',0),'vid'=>request('vid',0),'xid'=>request('xid',0)])}}">选择</option>
+                        @if(!empty($kongjian2))
                         @foreach($kongjian2 as $xl)
                             <option value="{!! $xl->id !!}" @if(request( 'ccid',0)==$xl->id) selected @endif data-url="{{route('product',['xid'=>request('xid',0),'vid'=>request('vid',0),'cid'=>request('cid',0),'ccid'=>$xl->id])}}">{{$xl->name}}</option>
                         @endforeach
+                            @endif
 
                     </select>
                 </div>
@@ -34,23 +38,28 @@
             <div class="chose-option row float-left">
                 <div class="col-auto btn-group">
                     <select class="custom-select btn" id="inlineFormCustomSelect">
-                        <option selected>选择风格</option>
+                        <option selected data-url="{{route('product',['cid'=>request('cid',0),'ccvid'=>request('ccid',0)])}}">选择风格</option>
+                        @if(!empty($fengge))
                         @foreach($fengge as $xl)
                             <option value="{!! $xl->id !!}" @if(request( 'xid',0)==$xl->id) selected @endif data-url="{{route('product',['xid'=>$xl->id,'vid'=>request('vid',0),'cid'=>request('cid',0),'ccid'=>request('ccid',0)])}}">{{$xl->name}}</option>
                         @endforeach
+                        @endif
 
                     </select>
                     <select class="custom-select" id="inlineFormCustomSelect">
-                        <option selected>选择系列</option>
+                        <option selected data-url="{{route('product',['cid'=>request('cid',0),'ccid'=>request('ccid',0),'xid'=>request('xid',0)])}}">选择系列</option>
+                        @if(!empty($xilie))
                         @foreach($xilie as $xl)
                             <option data-url="{{route('product',['vid'=>$xl->id,'xid'=>request('xid',0),'cid'=>request('cid',0),'ccid'=>request('ccid',0)])}}" value="{!! $xl->id !!}" @if(request( 'vid',0)==$xl->id) selected @endif>{{$xl->name}}</option>
                         @endforeach
+                            @endif
                     </select>
                 </div>
             </div>
         </div>
 
         <div class="row">
+            @if(!empty($result))
             @foreach($result as $pro)
                 @php $thumb = explode(',',$pro->image); @endphp
             <div class="col-4 good-item">
@@ -63,6 +72,7 @@
                 </a>
             </div>
             @endforeach
+            @endif
         </div>
         <nav aria-label="Page navigation example">
             {{ $result->appends(request()->input())->links() }}

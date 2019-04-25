@@ -307,7 +307,7 @@ body{
     position: relative;
     padding-left: 0;
     padding-right: 0;
-    margin: 0 7px;
+    margin: 7px;
 }
 .img-detail-wrap .carousel-indicators > div::after{
     content: '';
@@ -338,7 +338,8 @@ body{
     margin-left: 0;
     bottom: 0;
     padding-top:30px;
-    padding-bottom: 15px; 
+    padding-bottom: 15px;
+    overflow: hidden; 
     background: linear-gradient(0deg,rgba(0,0,0,1) 0%,rgba(0,0,0,0.78) 48%,rgba(0,0,0,0) 100%);
 }
 .good-info{
@@ -394,4 +395,12 @@ body{
     border: 1px solid #CC9F7D;
     background: #CC9F7D;
     color: #fff;
+}
+
+.custom-select{
+    width: auto;
+}
+
+.ca-item{
+    width: 18%;
 }

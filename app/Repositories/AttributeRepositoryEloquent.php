@@ -45,6 +45,7 @@ class AttributeRepositoryEloquent extends BaseRepository implements AttributeRep
             $fengge = app(Attribute::class)->find(5);
             $data = [];
             foreach($fengge->values as $value){
+                if($value->id == 10) continue;//去掉田园
                 $xilie = app(AttributeValue::class)->where('parent_value_id',$value->id)->get()->toArray();
                 $value->xilie = $xilie;
                 $data[] = $value->toArray();
