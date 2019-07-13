@@ -66,9 +66,20 @@ $(document).ready(function () {
 //控制详情窗口
 $(function () {
     function setFullCarouselWindow() {
+        $(".img-detail-wrap .carousel-inner").css({
+            "height": windowHeight-178,
+            "width": "90%"
+        });
+      
+         setTimeout(function () {
+        $(".img-detail-wrap .carousel-inner").css({
+            "width": "100%"
+        });
+        }, 10);
+      
         $(".img-detail-wrap").css({
-            "position": "absolute",
             "height": windowHeight,
+            "position": "absolute",
             "width": "100%",
             "overflow": "hidden"
         });
@@ -82,17 +93,20 @@ $(function () {
     }
     //初始化
     if (isWideScreen) {
-        setFullCarouselWindow();
+        setFullCarouselWindow();      
     }
     else {
         resetFullCarouselWindow();
+        $(".img-detail-wrap .carousel-inner .carousel-item img").css({
+            "height": "auto",
+            "width": "100%"
+        });
     }
 })
 
 function setGoodInfoBottom() {
     let xxHeight = $(".img-detail-wrap .carousel-indicators").height();
-    $(".good-info").css("bottom", xxHeight + 25);
-    console.log(xxHeight);
+    $(".good-info").css("bottom", 0);
 }
 
 

@@ -51,17 +51,7 @@ class HomeController extends Controller
         $sql3 ='';
         $sql = "select DISTINCT(product_id) from product_attributes where 1=1 ";
         if($value_id && $xvalue_id){
-            $sql .= " and id in (SELECT a.product_id
-                        FROM (                     
-                        SELECT  `product_id` 
-                        FROM product_attributes
-                        WHERE FIND_IN_SET( '".$value_id."', value_id )
-                        ) AS a
-                        INNER JOIN (    
-                        SELECT  `product_id` 
-                        FROM product_attributes
-                        WHERE FIND_IN_SET( '".$xvalue_id."', value_id )
-                        ) AS b ON a.product_id = b.product_id )";
+            $sql .= " and find_in_set('".$value_id."', value_id)";
         }
         elseif($value_id){
             $sql .= " and find_in_set('".$value_id."', value_id)";
@@ -72,15 +62,15 @@ class HomeController extends Controller
         if($attr_id){
             $sql .= " and attr_id='".$attr_id."'";
         }
+        $sql3 = "select id from category where site in(1,3) ";
         if($cid){
-            $sql3 = "select id from category where parent_id='".$cid."'";
+            $sql3 .= " and parent_id='".$cid."'";
             $kongjian2 = Category::where('parent_id',$cid)->get();
         }
         $ccid = request('ccid',0);
         if($ccid){
-            $sql3 = "select id from category where parent_id='".$ccid."'";
+            $sql3 .= " and parent_id='".$ccid."'";
         }
-        $sql3 .= "and site in(1,3)";
         $sql2 = "select * from product  where 1=1 ";
         $product_r = new Product();
         $sort = request('sort','id');
@@ -101,7 +91,24 @@ class HomeController extends Controller
             }
             $sql2 .= "  and id in (".$sql.")";
         }
-        if($cid){
+
+
+        $cateIds = DB::select($sql3);
+
+        if(!empty($cateIds)){
+            foreach($cateIds as &$v){
+                $v = $v->id;
+            }
+        }else{
+            $cateIds = [];
+        }
+        if($cid) $cateIds = array_unique(array_merge($cateIds,[$cid]));
+        if($ccid) $cateIds = array_unique(array_merge($cateIds,[$ccid]));
+        if(!empty($cateIds)){
+            $product_r = $product_r->whereIn('category_id',$cateIds);
+        }
+
+        /*if($cid){
             $cateIds = DB::select($sql3);
             if(!empty($cateIds)){
                 foreach($cateIds as &$v){
@@ -110,7 +117,7 @@ class HomeController extends Controller
                 $product_r = $product_r->whereIn('category_id',$cateIds);
             }
             $sql2 .= " and category_id in(".$sql3.")";
-        }
+        }*/
         $xinghao = request('no','');
         if($xinghao){
             $sql2 .= " and xinghao like '%".$xinghao."%'";
@@ -126,7 +133,7 @@ class HomeController extends Controller
             //$product_r = $product_r->orderBy($sort,'desc');
             $sql2 .= " order by favorite_count desc ,id desc ";
         }
-
+       // echo join(",",$ids);die;
         if(!empty($ids)){
             $product_r = $product_r->whereIn("id",$ids);
         }
@@ -148,7 +155,7 @@ class HomeController extends Controller
         $sql3 ='';
         $sql = "select DISTINCT(product_id) from product_attributes where 1=1 ";
         if($value_id && $xvalue_id){
-            $sql .= " and id in (SELECT a.product_id
+            /*$sql .= " and id in (SELECT a.product_id
                         FROM (                     
                         SELECT  `product_id` 
                         FROM product_attributes
@@ -158,7 +165,8 @@ class HomeController extends Controller
                         SELECT  `product_id` 
                         FROM product_attributes
                         WHERE FIND_IN_SET( '".$xvalue_id."', value_id )
-                        ) AS b ON a.product_id = b.product_id )";
+                        ) AS b ON a.product_id = b.product_id )";*/
+            $sql .= " and find_in_set('".$value_id."', value_id)";
         }
         elseif($value_id){
             $sql .= " and find_in_set('".$value_id."', value_id)";

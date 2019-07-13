@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $img_pad = "?x-oss-process=style/tv";
+    @endphp
     <div class="container-fluid main-class">
 
         <!-- Nav tabs -->
@@ -13,7 +16,11 @@
             </li>
             @foreach($lists as $item)
                 <li class="nav-item col">
-                    <a class="nav-link @if($loop->iteration==0) active @endif" data-toggle="tab" href="#menu{!! $loop->iteration !!}" style="background:url('/public/uploads/{!! $item['image_url'] !!}')no-repeat center;">
+                    @if(file_exists(public_path()."uploads/".$item['image_url']))
+                        <a class="nav-link @if($loop->iteration==0) active @endif" data-toggle="tab" href="#menu{!! $loop->iteration !!}" style="background:url('/public/uploads/{!! $item['image_url'] !!}')no-repeat center;">
+                    @else
+                        <a class="nav-link @if($loop->iteration==0) active @endif" data-toggle="tab" href="#menu{!! $loop->iteration !!}" style="background:url('https://taizicasabeifen.oss-cn-shenzhen.aliyuncs.com/uploads/{!! $item['image_url'] !!}{!! $img_pad !!}')no-repeat center;">
+                    @endif
                         <span class="tab-name">{!! $item['name'] !!}</span>
                         <span class="tab-center"></span>
                     </a>
@@ -28,8 +35,12 @@
                     @foreach($lists as $item)
                         @foreach($item['xilie'] as $x)
                             <div class="col-xl-3 col-lg-3 col-md-3 type-item">
-                                <a href="{{route('product',['vid'=>$x['id']])}}">
-                                    <img src="/public/uploads/{!! $x['image_url'] !!}" width="100%" title="{!! $x['name'] !!}">
+                                <a href="{{route('product',['vid'=>$x['id'],'xid'=>$item['id']])}}">
+                                    @if(file_exists(public_path()."uploads/".$x['image_url']))
+                                    <img src="/public/uploads/{!! $x['image_url'] !!}{!! $img_pad !!}" width="100%" title="{!! $x['name'] !!}">
+                                    @else
+                                    <img src="https://taizicasabeifen.oss-cn-shenzhen.aliyuncs.com/uploads/{!! $x['image_url'] !!}{!! $img_pad !!}" width="100%" title="{!! $x['name'] !!}">
+                                    @endif
                                 </a>
                             </div>
                         @endforeach
@@ -41,8 +52,12 @@
                     <div class="row">
                         @foreach($item['xilie'] as $x)
                         <div class="col-xl-3 col-lg-3 col-md-3 type-item">
-                            <a href="{{route('product',['vid'=>$x['id']])}}">
-                                <img src="/public/uploads/{!! $x['image_url'] !!}" width="100%" title="{!! $x['name'] !!}">
+                            <a href="{{route('product',['vid'=>$x['id'],'xid'=>$item['id']])}}">
+                                @if(file_exists(public_path()."uploads/".$x['image_url']))
+                                    <img src="/public/uploads/{!! $x['image_url'] !!}{!! $img_pad !!}" width="100%" title="{!! $x['name'] !!}">
+                                @else
+                                    <img src="https://taizicasabeifen.oss-cn-shenzhen.aliyuncs.com/uploads/{!! $x['image_url'] !!}{!! $img_pad !!}" width="100%" title="{!! $x['name'] !!}">
+                                @endif
                             </a>
                         </div>
                         @endforeach

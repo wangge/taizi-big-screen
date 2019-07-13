@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $img_pad = "?x-oss-process=style/tv";
+    @endphp
     <div class="container-fluid good-list">
         <div class="sort-good clearfix">
             <div class="btn-group btn-group-toggle float-left" data-toggle="buttons">
@@ -53,15 +56,25 @@
         <div class="row">
             @foreach($result as $pro)
                 @php $thumb = explode(',',$pro->image); @endphp
-            <div class="col-4 good-item">
-                <div class="shoucang-btn @if(in_array($pro->id,$f_product)) shoucanged-btn @endif"><button title="收藏"></button></div>
-                <a href="#" style="background:url(/public{!! $thumb[0] !!}) no-repeat center bottom;"
-                   onclick="openDetailWindow(this);" data-src="{!! route('detail',['id'=>$pro->id]) !!}">
-                    <div class="shadow-sm">
-                        <p>{!! $pro->name !!}</p>
-                    </div>
-                </a>
-            </div>
+                <div class="col-4 good-item">
+                    <div class="shoucang-btn @if(in_array($pro->id,$f_product)) shoucanged-btn @endif"><button title="收藏"></button></div>
+                    @if(file_exists(public_path()."/". $thumb[0] ))
+                        <a href="#" style="background:url(/public{!! $thumb[0] !!}) no-repeat center bottom;"
+                           onclick="openDetailWindow(this);" data-src="{!! route('detail',['id'=>$pro->id]) !!}">
+                            <div class="shadow-sm">
+                                <p>{!! $pro->name !!}</p>
+                            </div>
+                        </a>
+                    @else
+                        <a href="#" style="background:url(https://taizicasabeifen.oss-cn-shenzhen.aliyuncs.com{!! $thumb[0] !!}{!! $img_pad !!}) no-repeat center bottom;"
+                           onclick="openDetailWindow(this);" data-src="{!! route('detail',['id'=>$pro->id]) !!}">
+                            <div class="shadow-sm">
+                                <p>{!! $pro->name !!}</p>
+                            </div>
+                        </a>
+                    @endif
+
+                </div>
             @endforeach
         </div>
         <nav aria-label="Page navigation example">
