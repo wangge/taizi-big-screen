@@ -35,6 +35,23 @@ class HomeController extends Controller
         return view('home',['lists'=>$list]);
     }
     public function product(){
+        $minutes = 24 * 1 * 60;
+        $local_product = Cache::remember('local_product_ids', $minutes, function() {
+            $map = function($file){
+                return str_replace('\\', '/', $file);
+            };
+            $img_list = $this->read_all(public_path().'/uploads');
+            $all_product = Product::all()->pluck('image','id');
+            $local_images = array_map($map, $img_list);
+            $ids = [];
+            foreach($all_product as $id => $image){
+                if(!$image) continue;
+                if(in_array(explode(',',$image)[0], $local_images)){
+                    array_push($ids, $id);
+                }
+            }
+            return $ids;
+        });
         //$xilie = AttributeValue::where('attr_id',1)->get();
         $xilie = null;
         $fengge = AttributeValue::where('attr_id',5)->where('id','<>',10)->get();
@@ -72,6 +89,7 @@ class HomeController extends Controller
             $sql3 .= " and parent_id='".$ccid."'";
         }
         $sql2 = "select * from product  where 1=1 ";
+        //$product_r = new Product();
         $product_r = new Product();
         $sort = request('sort','id');
         $agency_id = \Auth::user()->id;
@@ -135,12 +153,15 @@ class HomeController extends Controller
         }
        // echo join(",",$ids);die;
         if(!empty($ids)){
+            $ids = array_intersect($ids, $local_product);
             $product_r = $product_r->whereIn("id",$ids);
+        }else{
+            $product_r = $product_r->whereIn("id",$local_product);
         }
 
         //$result = DB::select($sql2);
         $result = $product_r->paginate(12);
-        //dd($product_r->toSql());
+        //dd($product_r->toSql());b
         return view('product',['xilie'=>$xilie,'fengge'=>$fengge,'kongjian'=>$kongjian,'result'=>$result,'f_product'=>$f_product,'kongjian2'=>$kongjian2]);
     }
     public function favorite(){
